@@ -62,6 +62,7 @@ public class AcessController {
 	@RequestMapping("/acessshow")
 	public String show(Long id, Model model, HttpSession session){
 		Question question = questionRepository.findOne(id);
+		//Reply reply = replyRepository.findAll();
 		log.info(">>QNA show : " + question.toString());
 		model.addAttribute("quesinfo", question);
 		return "/qna/show";

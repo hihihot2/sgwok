@@ -4,14 +4,17 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Question {
 	@Id @GeneratedValue
 	@Column(nullable = false, unique = true)
 	private long id;
-	@Column(length = 15, nullable = false)
-	private String writer;
+	@ManyToOne
+	private User writer;
+	//@Column(length = 15, nullable = false)
+	//private String writer;
 	@Column(length = 100, nullable = false)
 	private String title;
 	@Column(length = 300)
@@ -21,13 +24,13 @@ public class Question {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Question(String writer, String title, String contents){
+	public Question(User writer, String title, String contents){
 		super();
 		this.writer = writer;
 		this.title = title;
 		this.contents = contents;
 	}
-	public Question(long id, String writer, String title, String contents) {
+	public Question(long id, User writer, String title, String contents) {
 		super();
 		this.id = id;
 		this.writer = writer;
@@ -43,11 +46,11 @@ public class Question {
 		this.id = id;
 	}
 
-	public String getWriter() {
+	public User getWriter() {
 		return writer;
 	}
 
-	public void setWriter(String writer) {
+	public void setWriter(User writer) {
 		this.writer = writer;
 	}
 

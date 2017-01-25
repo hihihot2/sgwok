@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.domain.Question;
 import com.example.domain.QuestionRepository;
+import com.example.domain.User;
 import com.example.utils.HttpSessionUtil;
 
 @Controller
@@ -33,9 +34,12 @@ public class QuestionController {
 		if(!HttpSessionUtil.isLoginUser(session)){
 			throw new IllegalStateException("You aren't Login User");
 		}else{
+			question.setWriter((User) session.getAttribute(HttpSessionUtil.LOGIN_USER));
 			log.debug("Question Data : " + question.toString());
 			questionRepository.save(question);
 		}
 		return "redirect:/";
 	}
+	
+	
 }
