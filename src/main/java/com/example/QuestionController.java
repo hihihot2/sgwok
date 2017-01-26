@@ -29,8 +29,6 @@ public class QuestionController {
 		return "/index";
 	}
 	
-	
-	
 	@PostMapping("/qna/create")
 	public String getQna(String title, String contents, HttpSession session){
 		if(!HttpSessionUtil.isLoginUser(session)){
