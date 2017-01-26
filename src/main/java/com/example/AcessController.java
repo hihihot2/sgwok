@@ -52,9 +52,7 @@ public class AcessController {
 		if(!HttpSessionUtil.isLoginUser(session)){
 			return "redirect:/";
 		}else{
-			User tmpUser = (User) session.getAttribute(HttpSessionUtil.LOGIN_USER);
-			log.debug(">>allowedQna : " + tmpUser.toString());
-			model.addAttribute("myinfo", tmpUser);
+			log.debug(">>allowedQna");
 			return "/qna/form";
 		}
 	}

@@ -1,31 +1,48 @@
 package com.example.domain;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import com.example.utils.DateTimeUtils;
 
 @Entity
 public class Reply {
 	@Id @GeneratedValue
-	@Column(nullable = false, unique = true)
 	private long id;
+	
 	@ManyToOne
+	@JoinColumn(foreignKey = @ForeignKey(name = "fk_reply_question"))
 	private Question question;
+	
 	@ManyToOne
+	@JoinColumn(foreignKey = @ForeignKey(name = "fk_reply_writer"))
 	private User user;
-	@Column(length=200)
+	
+	@Lob
 	private String repcontents;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "create_date", nullable = false, updatable = false)
+	private Date createDate;
 	
 	public Reply(){super();	}
 
-	public Reply(long id, Question question, User user, String repcontents) {
+	public Reply(User user, Question question, String repcontents) {
 		super();
-		this.id = id;
 		this.question = question;
 		this.user = user;
 		this.repcontents = repcontents;
+		this.createDate = new Date();
 	}
 
 	public long getId() {
@@ -58,6 +75,10 @@ public class Reply {
 
 	public void setRep_contents(String rep_contents) {
 		this.repcontents = rep_contents;
+	}
+	
+	public String getFormattedCreateDate() {
+		return DateTimeUtils.format(createDate, "yyyy.MM.dd HH:mm:ss");
 	}
 
 	@Override

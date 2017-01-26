@@ -1,41 +1,54 @@
 package com.example.domain;
 
+import java.util.Date;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import com.example.utils.DateTimeUtils;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Question {
 	@Id @GeneratedValue
-	@Column(nullable = false, unique = true)
 	private long id;
+	
 	@ManyToOne
+	@JoinColumn(foreignKey = @ForeignKey(name = "fk_question_writer"))
 	private User writer;
-	//@Column(length = 15, nullable = false)
-	//private String writer;
-	@Column(length = 100, nullable = false)
+	
+	@Column(length = 200, nullable = false)
 	private String title;
-	@Column(length = 300)
+	
+	@Lob
 	private String contents;
 	
-	public Question() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-	public Question(User writer, String title, String contents){
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "create_date", nullable = false, updatable = false)
+	private Date createDate;
+	
+	@OneToMany(mappedBy="question")
+	@OrderBy("id ASC")
+	private List<Reply> answers;
+	
+	public Question() {super();}
+	public Question(User writer, String title, String contents) {
 		super();
 		this.writer = writer;
 		this.title = title;
 		this.contents = contents;
-	}
-	public Question(long id, User writer, String title, String contents) {
-		super();
-		this.id = id;
-		this.writer = writer;
-		this.title = title;
-		this.contents = contents;
+		this.createDate = new Date();
 	}
 
 	public long getId() {
@@ -69,6 +82,16 @@ public class Question {
 	public void setContents(String contents) {
 		this.contents = contents;
 	}
+	
+	@JsonIgnore
+	public List<Reply> getAnswers() {
+		return answers;
+	}
+
+	public String getFormattedCreateDate() {
+		return DateTimeUtils.format(createDate, "yyyy.MM.dd HH:mm:ss");
+	}
+	
 	@Override
 	public String toString() {
 		return "Question [id=" + id + ", writer=" + writer + ", title=" + title + ", contents=" + contents + "]";

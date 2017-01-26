@@ -22,7 +22,7 @@
 				<header class="qna-header">
 					<h2 class="qna-title">{{title}}</h2>
 					<p align="right">
-					<script>
+					<!-- <script>
 												var d = new Date();
 												var year = d.getFullYear();
 												var month = d.getMonth();
@@ -31,7 +31,7 @@
 												var min = d.getMinutes();
 												document.getElementById("date").innerHTML 
 												= year+"-"+(month+1)+"-"+day+" "+hour+":"+min;
-					</script>
+					</script> -->
 					</p>
 				</header>
 				<div class="content-main">
@@ -71,7 +71,6 @@
 								<strong>2</strong>개의 의견
 							</p>
 							<div class="qna-comment-slipp-articles">
-							{{#}}
 								<article class="article" id="answer-1406">
 									<div class="article-header">
 										<div class="article-header-thumb">
@@ -105,14 +104,13 @@
 										</ul>
 									</div>
 								</article>
-								{{/}}
-								<form class="submit-write">
+								<form class="reply-write" method="post" action="/api/questions/{{quesinfo.writer.id}}/reply">
 									<input type="hidden" name="writer" value="{{id}}">
 									<div class="form-group" style="padding: 14px;">
-										<textarea class="form-control" id="repcontents"
+										<textarea class="form-control" name="repcontents"
 											placeholder="Update your status"></textarea>
 									</div>
-									<button class="btn btn-success pull-right" type="button" oncl="doaction('writerep')">답변하기</button>
+									<button class="add-answer-btn btn btn-success pull-right" type="button">답변하기</button>
 									<div class="clearfix" />
 								</form>
 							</div>
@@ -124,7 +122,7 @@
 	</div>
 	{{/quesinfo}}
 
-	<script type="text/template" id="answerTemplate">
+	<script type="text/template" id="replyTemplate">
 	<article class="article">
 		<div class="article-header">
 			<div class="article-header-thumb">

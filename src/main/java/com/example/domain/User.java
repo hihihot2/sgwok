@@ -9,8 +9,8 @@ import javax.persistence.Id;
 public class User {
 //	JPA에서 인식하고 DB에서 자동으로 인식하게 도와줌
 	@Id @GeneratedValue
-	@Column(nullable = false, unique = true)
 	private long id;
+	
 	@Column(length = 15, nullable = false, unique = true)
 	private String userId;
 	@Column(length = 15, nullable = false)
@@ -20,9 +20,7 @@ public class User {
 	@Column(length = 20, nullable = false)
 	private String email;
 	
-	public User(){
-		
-	}
+	public User(){	}
 	public User(long id, String userId, String password, String name, String email) {
 		super();
 		this.id = id;

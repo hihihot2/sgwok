@@ -30,13 +30,14 @@ public class QuestionController {
 	}
 	
 	@PostMapping("/qna/create")
-	public String getQna(Question question, HttpSession session){
+	public String getQna(String title, String contents, HttpSession session){
 		if(!HttpSessionUtil.isLoginUser(session)){
 			throw new IllegalStateException("You aren't Login User");
 		}else{
-			question.setWriter((User) session.getAttribute(HttpSessionUtil.LOGIN_USER));
-			log.debug("Question Data : " + question.toString());
-			questionRepository.save(question);
+			User user = HttpSessionUtil.GetUserFromSession(session);
+			Question newQuestion = new Question(user, title, contents);
+			questionRepository.save(newQuestion);
+			log.debug("Question Data : " + newQuestion);
 		}
 		return "redirect:/";
 	}

@@ -1,1 +1,1 @@
-insert into user (user_id, password, name, email) values ('hihihot2', '123', 'jkh', '17679@hanmail.net')
+insert into user (user_id, password, name, email) values ('test', '123', 'jkh', '17679@hanmail.net')
